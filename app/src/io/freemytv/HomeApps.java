@@ -121,7 +121,7 @@ final class HomeApps {
      * content), so a shelf of up to 8 looks as it always did. The built-in list keeps 8, and low-memory TVs hold 8 at
      * most, without scrolling: every app on the shelf keeps its logo in memory, at two sizes.
      */
-    private static final int SHELF_VISIBLE = 8, FEW_APPS = 8;
+    private static final int SHELF_VISIBLE = 12, FEW_APPS = 12;
 
     /** Low memory (TCL's 1 GB models): every MB counts. */
     static boolean lowRam(Context c) {
@@ -1170,11 +1170,19 @@ final class HomeApps {
     }
 
     private static Bitmap darkTile(int w, int h) {
-        Bitmap b = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
-        Paint bg = new Paint();
-        bg.setShader(new LinearGradient(0, 0, 0, h, 0xFF2B2E3A, 0xFF17191F, Shader.TileMode.CLAMP));
-        new Canvas(b).drawRect(0, 0, w, h, bg);
-        return b;
+    Bitmap b = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
+    Canvas canvas = new Canvas(b);
+    Paint bg = new Paint();
+    bg.setShader(new LinearGradient(0, 0, 0, h, 0xFF0E5C86, 0xFF041A33, Shader.TileMode.CLAMP));
+    canvas.drawRect(0, 0, w, h, bg);
+    Paint gloss = new Paint();
+    gloss.setShader(new LinearGradient(0, 0, 0, h * 0.5f, 0x66FFFFFF, 0x00FFFFFF, Shader.TileMode.CLAMP));
+    canvas.drawRect(0, 0, w, h * 0.5f, gloss);
+    Paint aqua = new Paint();
+    aqua.setShader(new RadialGradient(w / 2f, h * 1.1f, w * 0.7f, 0x6640E0FF, 0x0040E0FF, Shader.TileMode.CLAMP));
+    canvas.drawRect(0, 0, w, h, aqua);
+    return b;
+        
     }
 
     /** Official logo (tools/logos.py): trims the transparent margins and scales it down to at most 512 px. */
